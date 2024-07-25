@@ -1,0 +1,132 @@
+// Calculate n!
+n = 10, 100, 1000, ..
+Print first 10 digits to verify the result 
+
+
+
+package practice;
+
+import java.math.BigInteger;
+
+public class Facgtorial_number {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		 int[] nValues = {10, 100, 1000};
+	        
+	        for (int n : nValues) {
+	            BigInteger factorial = calculateFactorial(n);
+	            String first10Digits = factorial.toString().substring(0, 10);
+	            System.out.println(n + "! first 10 digits: " + first10Digits);
+	        }
+	    }
+	
+	private static BigInteger calculateFactorial(int n) {
+        BigInteger result = BigInteger.ONE;
+        for (int i = 2; i <= n; i++) {
+            result = result.multiply(BigInteger.valueOf(i));
+        }
+        return result;
+    }
+	}
+
+result : 10! first 10 digits: 3628800
+100! first 10 digits: 9332621544
+1000! first 10 digits: 4023872600
+
+
+
+
+
+
+
+
+
+//
+Detect potential functional and execution issues:
+
+void transfer(Account from, Account to, int amount) {
+synchronized(from){
+   synchronized(to) {
+          from.debit(amount);
+          to.credit(amount);         
+   }
+}
+
+
+public class Account {
+    private int balance;
+
+    public synchronized void debit(int amount) throws InsufficientFundsException {
+        if (balance < amount) {
+            throw new InsufficientFundsException("Insufficient funds");
+        }
+        balance -= amount;
+    }
+
+    public synchronized void credit(int amount) {
+        balance += amount;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+}
+
+public class InsufficientFundsException extends Exception {
+    public InsufficientFundsException(String message) {
+        super(message);
+    }
+}
+
+public class AccountTransfer {
+
+    public void transfer(Account from, Account to, int amount) throws InsufficientFundsException {
+        if (from == null || to == null) {
+            throw new IllegalArgumentException("Account cannot be null");
+        }
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Amount must be positive");
+        }
+        if (from == to) {
+            return; // No need to transfer if both accounts are the same
+        }
+
+        Account firstLock = from.hashCode() < to.hashCode() ? from : to;
+        Account secondLock = from.hashCode() < to.hashCode() ? to : from;
+
+        synchronized (firstLock) {
+            synchronized (secondLock) {
+                from.debit(amount);
+                to.credit(amount);
+            }
+        }
+    }
+}
+Execution Issues :
+Deadlock Avoidance
+IllegalArgumentException
+Amount Validation
+Self-transfer Check
+Exception Handling
+
+
+
+write a progrAM TO CONVERT BELOW STRING  TO INTEGER  INPUT sTRING ="$180,240/y"
+
+public class StringToInteger {
+    public static void main(String[] args) {
+        String input = "$180,240/y";
+        int result = convertStringToInteger(input);
+        System.out.println("Converted value: " + result);
+    }
+
+    public static int convertStringToInteger(String input) {
+        // Remove non-digit characters
+        String cleanedInput = input.replaceAll("[^0-9]", "");
+        
+        // Convert the cleaned string to an integer
+        return Integer.parseInt(cleanedInput);
+    }
+}
+
